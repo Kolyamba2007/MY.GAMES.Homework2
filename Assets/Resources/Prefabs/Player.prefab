@@ -190,7 +190,7 @@ MonoBehaviour:
     type: 3}
   Speed: 5
   FireTime: 5
-  HitpointsMax: 10
+  HitpointsMax: 20
 --- !u!114 &39565275991571004
 MonoBehaviour:
   m_ObjectHideFlags: 0

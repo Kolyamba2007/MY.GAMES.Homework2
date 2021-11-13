@@ -26,9 +26,9 @@ namespace Game
         private bool _isFireman;
 
         public string PlayerName { get; set; } = "Fireman";
-        public bool isDead { get; private set; } = false;
+        //public bool isDead { get; private set; } = false;
 
-        public event Action Dead;
+        //public event Action Dead;
 
         public bool IsFireman
         {

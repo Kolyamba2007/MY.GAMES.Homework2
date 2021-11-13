@@ -105,6 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4754911354900822}
+  - component: {fileID: 3226014098570193975}
   - component: {fileID: 54461488628131348}
   - component: {fileID: 7681659814906748126}
   m_Layer: 16
@@ -130,6 +131,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3226014098570193975
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186256172198026}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &54461488628131348
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -158,11 +172,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce954f8ee64e45cb832586d939942063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackDistance: 2
+  _damage: 5
+  _speed: 2
   _aliveView: {fileID: 1131526549626236}
   _diedView: {fileID: 7750346275728890811}
-  _speed: 20
   _rigidbody: {fileID: 54461488628131348}
-  _deltaPath: []
+  _deltaPath:
+  - {x: 0.5, y: 0, z: 0.5}
+  - {x: -0.3, y: 0, z: 0.3}
 --- !u!1 &7750346275728890811
 GameObject:
   m_ObjectHideFlags: 0
