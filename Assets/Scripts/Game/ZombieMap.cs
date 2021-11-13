@@ -18,7 +18,7 @@ namespace Game
 
         public List<Vector3> AlivePositions() => _zombieComponents
             .Where(z => z.IsAlive)
-            .Select(z=>z.gameObject.transform.position)
+            .Select(z => z.gameObject.transform.position)
             .ToList();
     }
 }

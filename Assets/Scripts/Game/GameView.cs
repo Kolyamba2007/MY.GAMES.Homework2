@@ -27,19 +27,22 @@ namespace Game
                 return;
             }
 
-            foreach(var player in _players)
+            for (int i = 0; i < _players.Count; i++)
             {
-                if (player.Hitpoints > 0)
-                    player.Hitpoints -= Time.deltaTime;
+                if (_players[i].Hitpoints > 0)
+                    _players[i].Hitpoints -= Time.deltaTime;
                 else
                 {
-                    _players.Remove(player);
-                    Destroy(player.gameObject);
+                    Destroy(_players[i].gameObject);
+                    _players.Remove(_players[i]);
                 }
             }
 
             if(_players.Count == 0)
+            {
                 _gameOverBlock.SetActive(true);
+                return;
+            }
         }
     }
 }

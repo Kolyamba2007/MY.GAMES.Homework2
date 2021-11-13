@@ -19,6 +19,7 @@ namespace Search
         public override (Vector3 moveDirection, Quaternion viewDirection, bool shoot) CurrentInput()
         {
             var alivePositions = _zombieMap.AlivePositions();
+
             if (alivePositions.Count == 0)
             {
                 return (Vector3.zero, Quaternion.identity, false);

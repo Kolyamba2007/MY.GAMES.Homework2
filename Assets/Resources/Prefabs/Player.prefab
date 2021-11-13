@@ -189,8 +189,8 @@ MonoBehaviour:
   BulletPrefab: {fileID: 1708751659445192, guid: 4c0e2be2754244751b033ade9a7feda0,
     type: 3}
   Speed: 5
-  FireTime: 1
-  HitpointsMax: 100
+  FireTime: 5
+  HitpointsMax: 10
 --- !u!114 &39565275991571004
 MonoBehaviour:
   m_ObjectHideFlags: 0
