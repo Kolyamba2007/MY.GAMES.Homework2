@@ -2,13 +2,17 @@ using UnityEngine;
 using Game;
 using System.Collections.Generic;
 
-public class PlayerFactory : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [SerializeField] private PlayerController _playerPrefab;
     [SerializeField] private Transform[] _spawnPoints;
+
+    enum Mode { Easy, Medium, Hard }
+    [SerializeField] private Mode _mode;
+
     public List<PlayerController> Players { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         Players = new List<PlayerController>();
         foreach (var spawnPoint in _spawnPoints)
@@ -22,5 +26,28 @@ public class PlayerFactory : MonoBehaviour
         PlayerController playerController = Instantiate(_playerPrefab, position, Quaternion.identity);
 
         return playerController;
+    }
+
+    public string GetMode()
+    {
+        string mode = null;
+        
+        switch (_mode)
+        {
+            case Mode.Easy:
+                mode = "Easy";
+                break;
+            case Mode.Medium:
+                mode = "Medium";
+                break;
+            case Mode.Hard:
+                mode = "Hard";
+                break;
+            default:
+                Debug.LogError("Mod is not assigned");
+                break;
+        }
+
+        return mode;
     }
 }

@@ -56,7 +56,28 @@ namespace Search
             // Шаг 10.
             return null;
         }
-        
+
+        public static Vector3 ClosestTarget(Vector3 playerPosition, List<Vector3> alivePositions)
+        {
+            if (alivePositions.Count() == 0) Debug.LogError("The collection contains no objects");
+
+            Vector3 closestTargetPosition = Vector3.zero;
+            float minDistance = float.MaxValue;
+
+            foreach (var enemy in alivePositions)
+            {
+                float distance = Vector3.Distance(playerPosition, enemy);
+
+                if (distance < minDistance)
+                {
+                    closestTargetPosition = enemy;
+                    minDistance = distance;
+                }
+            }
+
+            return closestTargetPosition;
+        }
+
         private static int GetDistanceBetweenNeighbours()
         {
             return 1;

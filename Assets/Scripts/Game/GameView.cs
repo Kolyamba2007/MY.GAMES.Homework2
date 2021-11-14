@@ -6,7 +6,7 @@ namespace Game
 {
     public class GameView : MonoBehaviour
     {
-        [SerializeField] private PlayerFactory _playerFactory;
+        [SerializeField] private GameManager _gameManager;
         [SerializeField] private ZombieMap _zombieMap;
         
         [SerializeField] private GameObject _winBlock;
@@ -14,9 +14,9 @@ namespace Game
 
         private List<PlayerController> _players;
 
-        private void Start()
+        private void OnEnable()
         {
-            _players = _playerFactory.Players;
+            _players = _gameManager.Players;
         }
 
         private void Update()

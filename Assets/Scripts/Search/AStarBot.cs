@@ -26,7 +26,7 @@ namespace Search
             }
 
             var playerPosition = _player.position;
-            var targetPosition = ClosestEnemy(playerPosition, alivePositions);
+            var targetPosition = AStarFromGoogle.ClosestTarget(playerPosition, alivePositions);
             var from = ToInt(playerPosition);
             var to = ToInt(targetPosition);
 
@@ -61,27 +61,6 @@ namespace Search
                 _map[_deltaX + Mathf.RoundToInt(point.x), _deltaZ + Mathf.RoundToInt(point.z)] = -1;
             }
 
-        }
-
-        private Vector3 ClosestEnemy(Vector3 playerPosition, System.Collections.Generic.List<Vector3> alivePositions)
-        {
-            if (alivePositions.Count() == 0) Debug.LogError("The collection contains no objects");
-
-            Vector3 closestEnemyPosition = Vector3.zero;
-            float minDistance = float.MaxValue;
-
-            foreach (var enemy in alivePositions)
-            {
-                float distance = Vector3.Distance(playerPosition, enemy);
-
-                if (distance < minDistance)
-                {
-                    closestEnemyPosition = enemy;
-                    minDistance = distance;
-                }
-            }
-
-            return closestEnemyPosition;
         }
 
         private Vector2Int ToInt(Vector3 vector3) =>

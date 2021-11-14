@@ -5,12 +5,6 @@ namespace Game
 {
     public class ZombieComponent : MonoBehaviour
     {
-        [SerializeField] private float _attackDistance;
-
-        [SerializeField] private float _damage;
-
-        [SerializeField] private float _speed;
-
         [SerializeField] private GameObject _aliveView;
 
         [SerializeField] private GameObject _diedView;
@@ -19,6 +13,9 @@ namespace Game
 
         [SerializeField] private Vector3[] _deltaPath;
 
+        private ZombieConfiguration _param;
+
+        private GameManager _gameManager;
         private int _currentPoint = 0;
         private Vector3 _initPosition;
 
@@ -29,11 +26,15 @@ namespace Game
         private void Awake()
         {
             _initPosition = transform.position;
+            _gameManager = FindObjectOfType<GameManager>();
         }
 
         private void OnEnable()
         {
             SetState(true);
+
+            _param = (ZombieConfiguration)Resources.Load($"Configurations/{_gameManager.GetMode()}ZombieConfiguration");
+
             StartCoroutine(Wander());
         }
 
@@ -44,7 +45,7 @@ namespace Game
                 if (!(_deltaPath == null || _deltaPath.Length < 2))
                 {
                     var direction = _initPosition + _deltaPath[_currentPoint] - transform.position;
-                    _rigidbody.velocity = direction.normalized * _speed;
+                    _rigidbody.velocity = direction.normalized * _param.Speed;
 
                     if (direction.magnitude <= 0.1f)
                     {
@@ -66,15 +67,14 @@ namespace Game
             {
                 float distance = Vector3.Distance(transform.position, player.position);
 
-                if (distance > _attackDistance)
+                if (distance > _param.AttackDistance)
                 {
                     var direction = player.position - transform.position;
-                    _rigidbody.velocity = direction.normalized * 100 * _speed * Time.deltaTime;
+                    _rigidbody.velocity = direction.normalized * 100 * _param.Speed * Time.deltaTime;
                 }
                 else
                 {
-                    target.Hitpoints -= _damage;
-                    Debug.Log(target.Hitpoints);
+                    target.Hitpoints -= _param.Damage;
                     yield return new WaitForSeconds(1);
                 }
 
