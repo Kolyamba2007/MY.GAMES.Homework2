@@ -45,18 +45,18 @@ namespace Search
             _zombieMap = FindObjectOfType<ZombieMap>();
             _levelMap = FindObjectOfType<LevelMap>();
 
-            var maxX = _levelMap.Points.Max(p => Mathf.RoundToInt(p.x));
-            var minX = _levelMap.Points.Min(p => Mathf.RoundToInt(p.x));
+            var maxX = _levelMap.WallPoints.Max(p => Mathf.RoundToInt(p.x));
+            var minX = _levelMap.WallPoints.Min(p => Mathf.RoundToInt(p.x));
 
-            var maxZ = _levelMap.Points.Max(p => Mathf.RoundToInt(p.z));
-            var minZ = _levelMap.Points.Min(p => Mathf.RoundToInt(p.z));
+            var maxZ = _levelMap.WallPoints.Max(p => Mathf.RoundToInt(p.z));
+            var minZ = _levelMap.WallPoints.Min(p => Mathf.RoundToInt(p.z));
 
             _deltaX = minX < 0 ? -minX : 0;
             _deltaZ = minZ < 0 ? -minZ : 0;
 
             _map = new int[maxX + _deltaX + 1, maxZ + _deltaZ + 1];
 
-            foreach (var point in _levelMap.Points)
+            foreach (var point in _levelMap.WallPoints)
             {
                 _map[_deltaX + Mathf.RoundToInt(point.x), _deltaZ + Mathf.RoundToInt(point.z)] = -1;
             }

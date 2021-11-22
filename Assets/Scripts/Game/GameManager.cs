@@ -5,15 +5,20 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private PlayerController _playerPrefab;
-    [SerializeField] private Transform[] _spawnPoints;
-
+    [SerializeField] private Transform _rootPlayerSpawnPoint;
+    private Transform[] _spawnPoints;
+    
     enum Mode { Easy, Medium, Hard }
-    [SerializeField] private Mode _mode;
+    [Space, SerializeField] private Mode _mode;
 
     public List<PlayerController> Players { get; private set; }
 
     private void Awake()
     {
+        _spawnPoints = new Transform[_rootPlayerSpawnPoint.childCount];
+        for (int i = 0; i < _spawnPoints.Length; i++)
+            _spawnPoints[i] = _rootPlayerSpawnPoint.GetChild(i);
+
         Players = new List<PlayerController>();
         foreach (var spawnPoint in _spawnPoints)
         {

@@ -1,0 +1,1 @@
+﻿public enum ChunkType { Empty, Wall, Player, Zombie }
