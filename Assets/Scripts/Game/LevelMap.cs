@@ -20,12 +20,12 @@ namespace Game
         [SerializeField] private Transform _rootZombie;
         [SerializeField] private Transform _rootPlayerSpawnPoint;
 
-        [Space, SerializeField] private List<Vector3> _wallPoints;
+        [Space, SerializeField, HideInInspector] private List<Vector3> _wallPoints;
 
-        private Chunk[,] _chunks;
-        public int X { get; set; }
-        public int Y { get; set; }
-        public Chunk[,] Chunks { get => _chunks; set => _chunks = value; }
+        [SerializeField, HideInInspector] private Chunk[] _chunks;
+        [SerializeField, HideInInspector] private int X, Y;
+
+        public Chunk[] Chunks { get => _chunks; set => _chunks = value; }
 
         public IReadOnlyList<Vector3> WallPoints => _wallPoints;
 
@@ -48,7 +48,7 @@ namespace Game
 
             for (int x = 0; x < X; x++)
                 for (int y = 0; y < Y; y++)
-                    mapStruct.types[x * Y + y] = _chunks[x, y].Type;
+                    mapStruct.types[x * Y + y] = _chunks[x * Y + y].Type;
 
             string json = JsonUtility.ToJson(mapStruct, prettyPrint: true);
 
@@ -80,13 +80,13 @@ namespace Game
                 this.X = mapStruct.X;
                 this.Y = mapStruct.Y;
 
-                _chunks = new Chunk[X, Y];
+                _chunks = new Chunk[X * Y];
                 for (int x = 0; x < X; x++)
                 {
                     for (int y = 0; y < Y; y++)
                     {
-                        _chunks[x, y] = new Chunk(x, y);
-                        _chunks[x, y].Type = mapStruct.types[x * Y + y];
+                        _chunks[x * Y + y] = new Chunk(x, y);
+                        _chunks[x * Y + y].Type = mapStruct.types[x * Y + y];
                     }
                 }
             }
@@ -107,21 +107,21 @@ namespace Game
                 for (int y = 0; y < Y; y++)
                 {
                     GameObject obj = null;
-                    switch (_chunks[x, y].Type)
+                    switch (_chunks[x * Y + y].Type)
                     {
                         case ChunkType.Empty:
                             continue;
                         case ChunkType.Wall:
                             obj = PrefabUtility.InstantiatePrefab(_wall, _rootWall) as GameObject;
-                            _wallPoints.Add(obj.transform.position = _chunks[x, y].Position + Vector3.up);
+                            _wallPoints.Add(obj.transform.position = _chunks[x * Y + y].Position + Vector3.up);
                             break;
                         case ChunkType.Zombie:
                             obj = PrefabUtility.InstantiatePrefab(_zombie, _rootZombie) as GameObject;
-                            obj.transform.position = _chunks[x, y].Position;
+                            obj.transform.position = _chunks[x * Y + y].Position;
                             break;
                         case ChunkType.Player:
                             obj = PrefabUtility.InstantiatePrefab(_playerSpawnPoint, _rootPlayerSpawnPoint) as GameObject;
-                            obj.transform.position = _chunks[x, y].Position;
+                            obj.transform.position = _chunks[x * Y + y].Position;
                             break;
                     }
                 }

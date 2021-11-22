@@ -11,24 +11,31 @@ public class LevelMapGUI : Editor
 
     LevelMap _levelMap;
 
+    SerializedProperty X;
+    SerializedProperty Y;
+
     private void OnEnable()
     {
+        X = serializedObject.FindProperty("X");
+        Y = serializedObject.FindProperty("Y");
+
         _levelMap = (LevelMap)target;
-        if(_levelMap.Chunks is null) _levelMap.Chunks = new Chunk[0, 0];
+        if (_levelMap.Chunks is null) _levelMap.Chunks = new Chunk[0];
     }
 
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
+        serializedObject.Update();
 
         #region WorldSize
 
         GUILayout.BeginHorizontal();
 
             GUILayout.Label("World size:");
-            _levelMap.X = EditorGUILayout.IntField(_levelMap.X);
+            X.intValue = EditorGUILayout.IntField(X.intValue);
             GUILayout.Label(" X ");
-            _levelMap.Y = EditorGUILayout.IntField(_levelMap.Y);
+            Y.intValue = EditorGUILayout.IntField(Y.intValue);
 
         GUILayout.EndHorizontal();
 
@@ -40,29 +47,29 @@ public class LevelMapGUI : Editor
 
         GUILayout.BeginVertical("box");
         scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(500), GUILayout.Height(500));
-        if (_levelMap.Chunks.Length != _levelMap.X * _levelMap.Y) _levelMap.Chunks = new Chunk[_levelMap.X, _levelMap.Y];
-        for (int i = 0; i < _levelMap.X; i++)
+        if (_levelMap.Chunks.Length != X.intValue * Y.intValue) _levelMap.Chunks = new Chunk[X.intValue * Y.intValue];
+        for (int x = 0; x < X.intValue; x++)
         {
             GUILayout.BeginHorizontal();
-            for (int j = 0; j < _levelMap.Y; j++)
+            for (int y = 0; y < Y.intValue; y++)
             {
-                if (_levelMap.Chunks[i, j] is null) _levelMap.Chunks[i, j] = new Chunk(i, j);
+                if (_levelMap.Chunks[x * Y.intValue + y] is null) _levelMap.Chunks[x * Y.intValue + y] = new Chunk(x, y);
 
-                if (GUILayout.Button(_levelMap.Chunks[i, j].GetTexture(), GUILayout.MaxWidth(20), GUILayout.MaxHeight(20)))
+                if (GUILayout.Button(_levelMap.Chunks[x * Y.intValue + y].GetTexture(), GUILayout.MaxWidth(20), GUILayout.MaxHeight(20)))
                 {
                     switch (_selected)
                     {
                         case 0:
-                            _levelMap.Chunks[i, j].Type = ChunkType.Empty;
+                            _levelMap.Chunks[x * Y.intValue + y].Type = ChunkType.Empty;
                             break;
                         case 1:
-                            _levelMap.Chunks[i, j].Type = ChunkType.Wall;
+                            _levelMap.Chunks[x * Y.intValue + y].Type = ChunkType.Wall;
                             break;
                         case 2:
-                            _levelMap.Chunks[i, j].Type = ChunkType.Player;
+                            _levelMap.Chunks[x * Y.intValue + y].Type = ChunkType.Player;
                             break;
                         case 3:
-                            _levelMap.Chunks[i, j].Type = ChunkType.Zombie;
+                            _levelMap.Chunks[x * Y.intValue + y].Type = ChunkType.Zombie;
                             break;
                     }
                 }
@@ -100,10 +107,6 @@ public class LevelMapGUI : Editor
 
         #endregion Buttons
 
-        if (GUI.changed)
-        {
-            Undo.RecordObject(_levelMap, "Level Map Modify");
-            EditorUtility.SetDirty(_levelMap);
-        }
+        serializedObject.ApplyModifiedProperties();
     }
 }

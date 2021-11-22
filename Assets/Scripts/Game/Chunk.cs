@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
 public class Chunk
 {
-    private ChunkType _type = ChunkType.Empty;
+    [SerializeField] private ChunkType _type = ChunkType.Empty;
 
-    private Vector3 _position;
+    [SerializeField] private Vector3 _position;
 
     public Chunk(int X, int Y)
     {
