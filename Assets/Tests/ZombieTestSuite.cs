@@ -1,25 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using NUnit.Framework;
+using System.Collections;
+using Game;
 
 public class ZombieTestSuite
 {
-    // A Test behaves as an ordinary method
-    [Test]
-    public void ZombieTestSuiteSimplePasses()
+    string ZombiePrefabPath = "Prefabs/Zombie";
+    string PlayerPrefabPath = "Prefabs/Player";
+
+    ZombieComponent zombie;
+    PlayerController player;
+
+    [SetUp]
+    public void Setup()
     {
-        // Use the Assert class to test conditions
+        zombie = Behaviour.Instantiate(Resources.Load<ZombieComponent>(ZombiePrefabPath));
+        player = Behaviour.Instantiate(Resources.Load<PlayerController>(PlayerPrefabPath));
     }
 
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator ZombieTestSuiteWithEnumeratorPasses()
+    [TearDown]
+    public void Teardown()
     {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
+        Object.Destroy(zombie.gameObject);
+    }
+
+    [UnityTest]
+    public IEnumerator ChangeToAttackStateOnTrigger()
+    {
         yield return null;
+
+        Assert.True(zombie.State == ZombieState.Attack);
+
+        Object.Destroy(player.gameObject);
+    }
+
+    [UnityTest]
+    public IEnumerator ChangeToWanderStateAfterPlayerKill()
+    {
+        yield return null;
+
+        Object.Destroy(Behaviour.FindObjectOfType<PlayerController>().gameObject);
+
+        yield return new WaitForSeconds(1f);
+
+        Assert.True(zombie.State == ZombieState.Wander);
     }
 }

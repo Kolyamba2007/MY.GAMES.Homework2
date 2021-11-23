@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     private Transform[] _spawnPoints;
     
     enum Mode { Easy, Medium, Hard }
-    [Space, SerializeField] private Mode _mode;
+    [Space, SerializeField] private Mode _mode = Mode.Easy;
 
     public List<PlayerController> Players { get; private set; }
 

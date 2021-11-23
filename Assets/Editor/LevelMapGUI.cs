@@ -93,13 +93,13 @@ public class LevelMapGUI : Editor
 
         if (GUILayout.Button("Import"))
         {
-            _levelMap.LoadFromFile();
+            _levelMap.LoadFromFile(EditorUtility.OpenFilePanel("Open with json", Application.dataPath, "json"));
             return;
         }
 
         if (GUILayout.Button("Export"))
         {
-            _levelMap.SaveToFile();
+            _levelMap.SaveToFile(EditorUtility.SaveFilePanel("Save with json", Application.dataPath, "map.json", "json"));
             return;
         }
 

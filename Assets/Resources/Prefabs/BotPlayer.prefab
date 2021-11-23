@@ -109,8 +109,9 @@ GameObject:
   - component: {fileID: 8254619554761097881}
   - component: {fileID: 114579815703072108}
   - component: {fileID: 39565275991571004}
+  - component: {fileID: 3486591965327588140}
   m_Layer: 15
-  m_Name: Player
+  m_Name: BotPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -178,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5c8d1658a964069a34ebc8f54a0bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerInput: {fileID: 39565275991571004}
+  PlayerInput: {fileID: 3486591965327588140}
   Rigidbody: {fileID: 54461488628131348}
   BodyRenderer: {fileID: 23664064847590238}
   BulletSpawnPoint: {fileID: 4571073157663476}
@@ -204,6 +205,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 8720307776277958022}
   _transform: {fileID: 4754911354900822}
+--- !u!114 &3486591965327588140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186256172198026}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e9d1ac414b42ec8f4ed37fbd033f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 4754911354900822}
+  _fireDistance: 3
 --- !u!1 &1229237294254552
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,10 +35,8 @@ namespace Game
             InstantiateChunks();
         }
 
-        public void SaveToFile()
+        public void SaveToFile(string path)
         {
-            string path = EditorUtility.SaveFilePanel("Save with json", Application.dataPath, "map.json", "json");
-
             MapStruct mapStruct = new MapStruct
             {
                 X = this.X,
@@ -62,10 +60,8 @@ namespace Game
             }
         }
 
-        public void LoadFromFile()
+        public void LoadFromFile(string path)
         {
-            string path = EditorUtility.OpenFilePanel("Open with json", Application.dataPath, "json");
-
             if (!File.Exists(path))
             {
                 Debug.Log(message: "{GameLog} => [MapStruct] - LoadFromFile -> File Not Found!");

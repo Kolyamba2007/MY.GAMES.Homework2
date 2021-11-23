@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game
 {
-    public class ZombieComponent : MonoBehaviour
+    public partial class ZombieComponent : MonoBehaviour
     {
         [SerializeField] private GameObject _aliveView;
 
@@ -19,9 +19,9 @@ namespace Game
         private int _currentPoint = 0;
         private Vector3 _initPosition;
 
-        enum State { Wander, Attack }
+        private ZombieState _state = ZombieState.Wander;
 
-        private State _state = State.Wander;
+        public ZombieState State => _state;
 
         private void Awake()
         {
@@ -33,14 +33,17 @@ namespace Game
         {
             SetState(true);
 
-            _param = (ZombieConfiguration)Resources.Load($"Configurations/{_gameManager.GetMode()}ZombieConfiguration");
+            if(_gameManager != null)
+                _param = (ZombieConfiguration)Resources.Load($"Configurations/{_gameManager.GetMode()}ZombieConfiguration");
+            else
+                _param = (ZombieConfiguration)Resources.Load($"Configurations/EasyZombieConfiguration");
 
             StartCoroutine(Wander());
         }
 
         private IEnumerator Wander()
         {
-            while(_state == State.Wander && IsAlive)
+            while(_state == ZombieState.Wander && IsAlive)
             {
                 if (!(_deltaPath == null || _deltaPath.Length < 2))
                 {
@@ -63,7 +66,7 @@ namespace Game
         {
             Transform player = target.gameObject.transform;
 
-            while (_state == State.Attack && IsAlive && target != null)
+            while (_state == ZombieState.Attack && IsAlive && target != null)
             {
                 float distance = Vector3.Distance(transform.position, player.position);
 
@@ -81,16 +84,16 @@ namespace Game
                 yield return null;
             }
 
-            _state = State.Wander;
+            _state = ZombieState.Wander;
             StartCoroutine(Wander());
             yield break;
         }
 
         private void OnTriggerStay(Collider collider)
         {
-            if (collider.gameObject.layer == 15 && _state != State.Attack)
+            if (collider.gameObject.layer == 15 && _state != ZombieState.Attack)
             {
-                _state = State.Attack;
+                _state = ZombieState.Attack;
                 StartCoroutine(Attack(collider.GetComponentInParent<PlayerController>()));
             }
         }
