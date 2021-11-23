@@ -46,7 +46,7 @@ public class LevelMapGUI : Editor
         _selected = EditorGUILayout.Popup("Prefabs:", _selected, _selection);
 
         GUILayout.BeginVertical("box");
-        scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(500), GUILayout.Height(500));
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
         if (_levelMap.Chunks.Length != X.intValue * Y.intValue) _levelMap.Chunks = new Chunk[X.intValue * Y.intValue];
         for (int x = 0; x < X.intValue; x++)
         {
@@ -55,7 +55,7 @@ public class LevelMapGUI : Editor
             {
                 if (_levelMap.Chunks[x * Y.intValue + y] is null) _levelMap.Chunks[x * Y.intValue + y] = new Chunk(x, y);
 
-                if (GUILayout.Button(_levelMap.Chunks[x * Y.intValue + y].GetTexture(), GUILayout.MaxWidth(20), GUILayout.MaxHeight(20)))
+                if (GUILayout.Button(_levelMap.Chunks[x * Y.intValue + y].GetTexture(), GUILayout.Width(20), GUILayout.Height(20)))
                 {
                     switch (_selected)
                     {
