@@ -42,7 +42,7 @@ public class ZombieTestSuite
 
         Object.Destroy(Behaviour.FindObjectOfType<PlayerController>().gameObject);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1);
 
         Assert.True(zombie.State == ZombieState.Wander);
     }

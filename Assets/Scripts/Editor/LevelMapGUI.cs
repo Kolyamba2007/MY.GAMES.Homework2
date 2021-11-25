@@ -26,23 +26,18 @@ public class LevelMapGUI : Editor
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
+
         serializedObject.Update();
 
-        #region WorldSize
+        DrawSizeWorldInspectorElements();
+        DrawMapEditorInspectorElements();
+        DrawButtons();
 
-        GUILayout.BeginHorizontal();
+        serializedObject.ApplyModifiedProperties();
+    }
 
-            GUILayout.Label("World size:");
-            X.intValue = EditorGUILayout.IntField(X.intValue);
-            GUILayout.Label(" X ");
-            Y.intValue = EditorGUILayout.IntField(Y.intValue);
-
-        GUILayout.EndHorizontal();
-
-        #endregion
-
-        #region MapEditor
-
+    private void DrawMapEditorInspectorElements()
+    {
         _selected = EditorGUILayout.Popup("Prefabs:", _selected, _selection);
 
         GUILayout.BeginVertical("box");
@@ -78,11 +73,22 @@ public class LevelMapGUI : Editor
         }
         GUILayout.EndScrollView();
         GUILayout.EndVertical();
+    }
 
-        #endregion
+    private void DrawSizeWorldInspectorElements()
+    {
+        GUILayout.BeginHorizontal();
 
-        #region Buttons
+        GUILayout.Label("World size:");
+        X.intValue = EditorGUILayout.IntField(X.intValue);
+        GUILayout.Label(" X ");
+        Y.intValue = EditorGUILayout.IntField(Y.intValue);
 
+        GUILayout.EndHorizontal();
+    }
+
+    private void DrawButtons()
+    {
         GUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Apply"))
@@ -104,9 +110,5 @@ public class LevelMapGUI : Editor
         }
 
         GUILayout.EndHorizontal();
-
-        #endregion Buttons
-
-        serializedObject.ApplyModifiedProperties();
     }
 }
